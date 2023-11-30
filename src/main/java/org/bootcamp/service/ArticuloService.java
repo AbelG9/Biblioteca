@@ -9,7 +9,5 @@ public interface ArticuloService {
     public List<Articulo> showAllArticulos();
     public void updateArticulo(Articulo articulo);
     public void deleteArticulo(int id);
-    public void loanArt(int articuloID, int userID);
-    public void returnArt(int articuloID, int userID);
     public Articulo returnArtById(int articuloID);
 }

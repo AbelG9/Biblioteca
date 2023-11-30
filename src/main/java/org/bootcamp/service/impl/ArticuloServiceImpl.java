@@ -34,16 +34,6 @@ public class ArticuloServiceImpl implements ArticuloService {
     }
 
     @Override
-    public void loanArt(int articuloID, int userID) {
-
-    }
-
-    @Override
-    public void returnArt(int articuloID, int userID) {
-
-    }
-
-    @Override
     public Articulo returnArtById(int articuloID) {
         return articuloDao.returnArtById(articuloID);
     }

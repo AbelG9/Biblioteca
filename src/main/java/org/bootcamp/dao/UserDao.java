@@ -9,5 +9,5 @@ public interface UserDao {
     public List<User> showAllUsers();
     public void editUser(User user);
     public void deleteUser(int id);
-    public User returnUserById(int userID);
+    public User findUserById(int userID);
 }

@@ -18,7 +18,7 @@ public class PrestamoDaoImpl implements PrestamoDao {
     }
 
     @Override
-    public void addPrestamo(int articuloID, int userID) {
+    public void loanItem(int articuloID, int userID) {
         try{
             String sql = "insert into prestamos (usuario, articulo, estado) values (?,?,?)";
             PreparedStatement psmt = connection.prepareStatement(sql);
@@ -41,12 +41,31 @@ public class PrestamoDaoImpl implements PrestamoDao {
     }
 
     @Override
-    public void updatePrestamo(Prestamo prestamo) {
+    public void returnItem(int articuloID, int userID) {
+        try{
+            String sql = "update prestamos set estado = ? where usuario = ? and articulo = ? and estado = ?";
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setInt(1, 0);
+            psmt.setInt(2, userID);
+            psmt.setInt(3, userID);
+            psmt.setInt(4, 1);
+            psmt.executeUpdate();
 
+            String sql2 = "update articulos set isLoaned = ? where articulo_id = ?";
+            PreparedStatement psmt2 = connection.prepareStatement(sql2);
+            psmt2.setBoolean(1,false);
+            psmt2.setInt(2, articuloID);
+            psmt2.executeUpdate();
+
+            System.out.println("Articulo devuelto exitosamente");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public List<Prestamo> getPrestamosByUserId(int userID) {
+    public List<Prestamo> getLoansByUserId(int userID) {
         try{
             String sql = "select * from prestamos where usuario = ? and estado = ?";
             PreparedStatement psmt = connection.prepareStatement(sql);

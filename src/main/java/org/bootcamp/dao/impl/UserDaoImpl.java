@@ -1,6 +1,5 @@
 package org.bootcamp.dao.impl;
 
-import org.bootcamp.dao.PrestamoDao;
 import org.bootcamp.dao.UserDao;
 import org.bootcamp.model.Articulo;
 import org.bootcamp.model.Prestamo;
@@ -58,7 +57,7 @@ public class UserDaoImpl implements UserDao {
                 String apellidos = resultSet.getString("apellidos");
                 String email = resultSet.getString("email");
 
-                List<Prestamo> prestamoList = prestamoService.getPrestamosByUserId(id);
+                List<Prestamo> prestamoList = prestamoService.getLoansByUserId(id);
 
                 List<Articulo> articuloList = new ArrayList<>();
 
@@ -94,7 +93,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User returnUserById(int userID) {
+    public User findUserById(int userID) {
         try{
             String sql = "select * from usuarios where usuario_id = ? and estado = ?";
             PreparedStatement psmt = connection.prepareStatement(sql);
@@ -108,7 +107,7 @@ public class UserDaoImpl implements UserDao {
                 String apellidos = resultSet.getString("apellidos");
                 String email = resultSet.getString("email");
 
-                List<Prestamo> prestamoList = prestamoService.getPrestamosByUserId(id);
+                List<Prestamo> prestamoList = prestamoService.getLoansByUserId(id);
 
                 List<Articulo> articuloList = new ArrayList<>();
 

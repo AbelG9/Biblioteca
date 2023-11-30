@@ -14,7 +14,6 @@ import org.bootcamp.service.impl.UserServiceImpl;
 import org.bootcamp.utils.DbConnection;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,9 +40,12 @@ public class Main {
             System.out.println("Ingrese 5 para agregar un nuevo articulo");
             System.out.println("Ingrese 6 para agregar un nuevo usuario");
             System.out.println("Ingrese 7 para prestar un articulo");
+            System.out.println("Ingrese 8 para devolver un articulo");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
+            int idUsuario;
+            int idArticulo;
             switch (option) {
                 case 1:
                     List<Articulo> articuloList = articuloService.showAllArticulos();
@@ -59,9 +61,9 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Ingrese el id del articulo");
-                    int idArticulo = sc.nextInt();
+                    idArticulo = sc.nextInt();
                     Articulo articulo = articuloService.returnArtById(idArticulo);
-                    if (articulo != null) {
+                    if (articulo.getArticuloID() != 0) {
                         articulo.showDetails();
                     } else {
                         System.out.println("No existe el articulo solicitado");
@@ -69,9 +71,9 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Ingrese el id del usuario");
-                    int idUser = sc.nextInt();
-                    User user = userService.returnUserById(idUser);
-                    if (user != null) {
+                    idUsuario = sc.nextInt();
+                    User user = userService.findUserById(idUsuario);
+                    if (user.getUserID() != 0) {
                         user.showUserDetails();
                     } else {
                         System.out.println("No existe el usuario solicitado");
@@ -113,24 +115,56 @@ public class Main {
                     break;
                 case 7:
                     System.out.println("Ingrese el id del usuario");
-                    int idUsuario = sc.nextInt();
-                    User userFound = userService.returnUserById(idUsuario);
-                    if (userFound == null){
+                    idUsuario = sc.nextInt();
+
+                    User userFind = userService.findUserById(idUsuario);
+                    if (userFind.getUserID() == 0){
                         System.out.println("Ingrese un usuario valido");
                         return;
                     }
+
                     System.out.println("Ingrese el id del articulo");
-                    int idArticuloPrestamo = sc.nextInt();
-                    Articulo articuloFound = articuloService.returnArtById(idArticuloPrestamo);
-                    if (articuloFound == null){
+                    idArticulo = sc.nextInt();
+
+                    Articulo articuloFind = articuloService.returnArtById(idArticulo);
+                    if (articuloFind.getArticuloID() == 0){
                         System.out.println("Ingrese un articulo valido");
                         return;
                     }
-                    if (articuloFound.isLoaned()){
+                    if (articuloFind.isLoaned()){
                         System.out.println("El articulo ya esta prestado a otro usuario");
                         return;
                     }
-                    prestamoService.addPrestamo(idArticuloPrestamo, idUsuario);
+                    prestamoService.loanItem(idArticulo, idUsuario);
+                    break;
+                case 8:
+                    System.out.println("Ingrese el id del usuario");
+                    idUsuario = sc.nextInt();
+
+                    User userFound = userService.findUserById(idUsuario);
+                    if (userFound.getUserID() == 0){
+                        System.out.println("Ingrese un usuario valido");
+                        return;
+                    }
+                    if(userFound.getArticuloList().isEmpty()){
+                        System.out.println("El usuario no tiene articulos prestados");
+                        return;
+                    }
+
+                    System.out.println("Ingrese el id del articulo");
+                    idArticulo = sc.nextInt();
+
+                    Articulo articuloFound = articuloService.returnArtById(idArticulo);
+                    if (articuloFound.getArticuloID() == 0){
+                        System.out.println("Ingrese un articulo valido");
+                        return;
+                    }
+                    boolean loaned = articuloFound.isLoaned();
+                    if (!loaned){
+                        System.out.println("El articulo no esta prestado");
+                        return;
+                    }
+                    prestamoService.returnItem(idArticulo, idUsuario);
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");

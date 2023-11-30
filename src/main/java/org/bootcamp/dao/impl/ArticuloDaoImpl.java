@@ -86,16 +86,6 @@ public class ArticuloDaoImpl implements ArticuloDao {
     }
 
     @Override
-    public void loanArt(int articuloID, int userID) {
-
-    }
-
-    @Override
-    public void returnArt(int articuloID, int userID) {
-
-    }
-
-    @Override
     public Articulo returnArtById(int articuloID) {
         try{
             String sql = "select * from articulos where articulo_id = ? and estado = ?";
