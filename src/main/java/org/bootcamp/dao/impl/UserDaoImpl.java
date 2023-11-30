@@ -28,8 +28,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addUser(User almacenUser) {
-
+    public void addUser(User user) {
+        try{
+            String sql = "INSERT INTO usuarios (nombre, apellidos, email, estado) VALUES (?, ?, ?, ?)";
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setString(1, user.getNombre());
+            psmt.setString(2, user.getApellido());
+            psmt.setString(3, user.getEmail());
+            psmt.setInt(4, 1);
+            psmt.executeUpdate();
+            System.out.println("Usuario ingresado correctamente");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
@@ -72,7 +84,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void editUser(int id) {
+    public void editUser(User user) {
 
     }
 

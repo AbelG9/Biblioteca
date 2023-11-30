@@ -35,6 +35,7 @@ public class Main {
             System.out.println("Ingrese 3 para ver la informacion de un articulo");
             System.out.println("Ingrese 4 para ver la informacion de un usuario");
             System.out.println("Ingrese 5 para agregar un nuevo articulo");
+            System.out.println("Ingrese 6 para agregar un nuevo usuario");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -89,6 +90,21 @@ public class Main {
                     articuloSave.setLoaned(false);
 
                     articuloService.addArticulo(articuloSave);
+                    break;
+                case 6:
+                    User userSave = new User();
+                    System.out.println("Ingrese el nombre del usuario");
+                    String nombre = sc.next();
+                    System.out.println("Ingrese los apellidos del usuario");
+                    String apellidos = sc.next();
+                    System.out.println("Ingrese el email del usuario");
+                    String email = sc.next();
+
+                    userSave.setNombre(nombre);
+                    userSave.setApellido(apellidos);
+                    userSave.setEmail(email);
+
+                    userService.addUser(userSave);
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");

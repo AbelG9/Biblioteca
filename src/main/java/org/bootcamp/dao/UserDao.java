@@ -5,9 +5,9 @@ import org.bootcamp.model.User;
 import java.util.List;
 
 public interface UserDao {
-    public void addUser(User almacenUser);
+    public void addUser(User user);
     public List<User> showAllUsers();
-    public void editUser(int id);
+    public void editUser(User user);
     public void deleteUser(int id);
     public User returnUserById(int userID);
 }

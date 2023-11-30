@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void addUser(User almacenUser) {
-
+    public void addUser(User user) {
+        userDao.addUser(user);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(int id) {
+    public void editUser(User user) {
 
     }
 
