@@ -35,8 +35,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> showAllUsers() {
         try{
-            String sql = "select * from usuarios where estado = 1";
+            String sql = "select * from usuarios where estado = ?";
             PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setInt(1, 1);
             ResultSet resultSet = psmt.executeQuery();
             List<User> users = new ArrayList<>();
             while (resultSet.next()){
@@ -78,5 +79,43 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteUser(int id) {
 
+    }
+
+    @Override
+    public User returnUserById(int userID) {
+        try{
+            String sql = "select * from usuarios where usuario_id = ? and estado = ?";
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setInt(1, userID);
+            psmt.setInt(2, 1);
+            ResultSet resultSet = psmt.executeQuery();
+            User user = new User();
+            while (resultSet.next()){
+                int id = resultSet.getInt("usuario_id");
+                String nombre = resultSet.getString("nombre");
+                String apellidos = resultSet.getString("apellidos");
+                String email = resultSet.getString("email");
+
+                List<Prestamo> prestamoList = prestamoService.getPrestamosByUserId(id);
+
+                List<Articulo> articuloList = new ArrayList<>();
+
+                for(Prestamo prestamo: prestamoList){
+                    Articulo articulo = articuloService.returnArtById(prestamo.getArticulo());
+                    articuloList.add(articulo);
+                }
+
+                user.setUserID(id);
+                user.setNombre(nombre);
+                user.setApellido(apellidos);
+                user.setEmail(email);
+                user.setArticuloList(articuloList);
+            }
+            return user;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

@@ -33,6 +33,7 @@ public class Main {
             System.out.println("Ingrese 1 para ver los articulos disponibles");
             System.out.println("Ingrese 2 para ver los usuarios disponibles");
             System.out.println("Ingrese 3 para ver la informacion de un articulo");
+            System.out.println("Ingrese 4 para ver la informacion de un usuario");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -57,6 +58,16 @@ public class Main {
                         articulo.showDetails();
                     } else {
                         System.out.println("No existe el articulo solicitado");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Ingrese el id del usuario");
+                    int idUser = sc.nextInt();
+                    User user = userService.returnUserById(idUser);
+                    if (user != null) {
+                        user.showUserDetails();
+                    } else {
+                        System.out.println("No existe el usuario solicitado");
                     }
                     break;
                 default:

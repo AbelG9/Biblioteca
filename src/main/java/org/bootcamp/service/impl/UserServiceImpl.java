@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(int id) {
 
     }
+
+    @Override
+    public User returnUserById(int userID) {
+        return userDao.returnUserById(userID);
+    }
 }
