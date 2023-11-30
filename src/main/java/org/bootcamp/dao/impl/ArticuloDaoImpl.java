@@ -18,7 +18,28 @@ public class ArticuloDaoImpl implements ArticuloDao {
 
     @Override
     public void addArticulo(Articulo articulo) {
+        try{
+            String sql = "insert into articulos (nombreArticulo, autor, editorial, isbn, isLoaned, estado) values(?,?,?,?,?,?)";
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            String nombre = articulo.getNombreArticulo();
+            String autor = articulo.getAutor();
+            String editorial = articulo.getEditorial();
+            String isbn = articulo.getIsbn();
+            Boolean isLoaned = articulo.isLoaned();
+            int estado = 1;
 
+            psmt.setString(1, nombre);
+            psmt.setString(2, autor);
+            psmt.setString(3, editorial);
+            psmt.setString(4, isbn);
+            psmt.setBoolean(5, isLoaned);
+            psmt.setInt(6, estado);
+            psmt.executeUpdate();
+            System.out.println("Articulo ingresado correctamente");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

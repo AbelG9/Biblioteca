@@ -15,7 +15,7 @@ public class ArticuloServiceImpl implements ArticuloService {
 
     @Override
     public void addArticulo(Articulo articulo) {
-
+        articuloDao.addArticulo(articulo);
     }
 
     @Override

@@ -34,6 +34,7 @@ public class Main {
             System.out.println("Ingrese 2 para ver los usuarios disponibles");
             System.out.println("Ingrese 3 para ver la informacion de un articulo");
             System.out.println("Ingrese 4 para ver la informacion de un usuario");
+            System.out.println("Ingrese 5 para agregar un nuevo articulo");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -69,6 +70,25 @@ public class Main {
                     } else {
                         System.out.println("No existe el usuario solicitado");
                     }
+                    break;
+                case 5:
+                    Articulo articuloSave = new Articulo();
+                    System.out.println("Ingrese el nombre del articulo");
+                    String nombreArticulo = sc.next();
+                    System.out.println("Ingrese el nombre del autor");
+                    String autor = sc.next();
+                    System.out.println("Ingrese la editorial");
+                    String editorial = sc.next();
+                    System.out.println("Ingrese el isbn del articulo");
+                    String isbn = sc.next();
+
+                    articuloSave.setNombreArticulo(nombreArticulo);
+                    articuloSave.setAutor(autor);
+                    articuloSave.setEditorial(editorial);
+                    articuloSave.setIsbn(isbn);
+                    articuloSave.setLoaned(false);
+
+                    articuloService.addArticulo(articuloSave);
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");
