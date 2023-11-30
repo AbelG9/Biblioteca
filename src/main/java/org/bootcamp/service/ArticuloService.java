@@ -11,4 +11,5 @@ public interface ArticuloService {
     public void deleteArticulo(int id);
     public void loanArt(int articuloID, int userID);
     public void returnArt(int articuloID, int userID);
+    public Articulo returnArtById(int articuloID);
 }

@@ -25,7 +25,7 @@ public class Articulo {
         System.out.println("autor: " + getAutor());
         System.out.println("editorial: " + getEditorial());
         System.out.println("isbn: " + getIsbn());
-        System.out.println("isLoaned: " + isLoaned());
+        System.out.println("Esta prestado: " + (isLoaned()? "si" : "no"));
         System.out.println("- - - - - - - - - - - - -");
     };
 }

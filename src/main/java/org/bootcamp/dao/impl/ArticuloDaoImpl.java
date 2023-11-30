@@ -73,4 +73,37 @@ public class ArticuloDaoImpl implements ArticuloDao {
     public void returnArt(int articuloID, int userID) {
 
     }
+
+    @Override
+    public Articulo returnArtById(int articuloID) {
+        try{
+            String sql = "select * from articulos where articulo_id = ? and estado = ?";
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setInt(1, articuloID);
+            psmt.setInt(2, 1);
+            ResultSet resultSet = psmt.executeQuery();
+            Articulo articulo = new Articulo();
+            while(resultSet.next()){
+                int id = resultSet.getInt("articulo_id");
+                String nombre = resultSet.getString("nombreArticulo");
+                String autor = resultSet.getString("autor");
+                String editorial = resultSet.getString("editorial");
+                String isbn = resultSet.getString("isbn");
+                boolean isLoaned = resultSet.getBoolean("isLoaned");
+
+                articulo.setArticuloID(id);
+                articulo.setNombreArticulo(nombre);
+                articulo.setAutor(autor);
+                articulo.setEditorial(editorial);
+                articulo.setIsbn(isbn);
+                articulo.setLoaned(isLoaned);
+            }
+            return articulo;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

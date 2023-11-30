@@ -42,4 +42,9 @@ public class ArticuloServiceImpl implements ArticuloService {
     public void returnArt(int articuloID, int userID) {
 
     }
+
+    @Override
+    public Articulo returnArtById(int articuloID) {
+        return articuloDao.returnArtById(articuloID);
+    }
 }
