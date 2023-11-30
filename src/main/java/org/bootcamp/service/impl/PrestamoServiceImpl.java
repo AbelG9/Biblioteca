@@ -2,6 +2,7 @@ package org.bootcamp.service.impl;
 
 import org.bootcamp.dao.PrestamoDao;
 import org.bootcamp.model.Prestamo;
+import org.bootcamp.model.User;
 import org.bootcamp.service.PrestamoService;
 
 import java.util.List;
@@ -14,8 +15,8 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     @Override
-    public void addPrestamo(Prestamo prestamo) {
-        prestamoDao.addPrestamo(prestamo);
+    public void addPrestamo(int articuloID, int userID) {
+        prestamoDao.addPrestamo(articuloID, userID);
     }
 
     @Override

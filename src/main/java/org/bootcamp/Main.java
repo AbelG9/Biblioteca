@@ -1,12 +1,15 @@
 package org.bootcamp;
 
 import org.bootcamp.dao.impl.ArticuloDaoImpl;
+import org.bootcamp.dao.impl.PrestamoDaoImpl;
 import org.bootcamp.dao.impl.UserDaoImpl;
 import org.bootcamp.model.Articulo;
 import org.bootcamp.model.User;
 import org.bootcamp.service.ArticuloService;
+import org.bootcamp.service.PrestamoService;
 import org.bootcamp.service.UserService;
 import org.bootcamp.service.impl.ArticuloServiceImpl;
+import org.bootcamp.service.impl.PrestamoServiceImpl;
 import org.bootcamp.service.impl.UserServiceImpl;
 import org.bootcamp.utils.DbConnection;
 
@@ -22,6 +25,7 @@ public class Main {
 
         ArticuloService articuloService = new ArticuloServiceImpl(new ArticuloDaoImpl(connection));
         UserService userService = new UserServiceImpl(new UserDaoImpl(connection));
+        PrestamoService prestamoService = new PrestamoServiceImpl(new PrestamoDaoImpl(connection));
 
         Scanner sc = new Scanner(System.in);
 
@@ -36,6 +40,7 @@ public class Main {
             System.out.println("Ingrese 4 para ver la informacion de un usuario");
             System.out.println("Ingrese 5 para agregar un nuevo articulo");
             System.out.println("Ingrese 6 para agregar un nuevo usuario");
+            System.out.println("Ingrese 7 para prestar un articulo");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -105,6 +110,27 @@ public class Main {
                     userSave.setEmail(email);
 
                     userService.addUser(userSave);
+                    break;
+                case 7:
+                    System.out.println("Ingrese el id del usuario");
+                    int idUsuario = sc.nextInt();
+                    User userFound = userService.returnUserById(idUsuario);
+                    if (userFound == null){
+                        System.out.println("Ingrese un usuario valido");
+                        return;
+                    }
+                    System.out.println("Ingrese el id del articulo");
+                    int idArticuloPrestamo = sc.nextInt();
+                    Articulo articuloFound = articuloService.returnArtById(idArticuloPrestamo);
+                    if (articuloFound == null){
+                        System.out.println("Ingrese un articulo valido");
+                        return;
+                    }
+                    if (articuloFound.isLoaned()){
+                        System.out.println("El articulo ya esta prestado a otro usuario");
+                        return;
+                    }
+                    prestamoService.addPrestamo(idArticuloPrestamo, idUsuario);
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");
