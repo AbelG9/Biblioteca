@@ -47,7 +47,7 @@ public class PrestamoDaoImpl implements PrestamoDao {
             PreparedStatement psmt = connection.prepareStatement(sql);
             psmt.setInt(1, 0);
             psmt.setInt(2, userID);
-            psmt.setInt(3, userID);
+            psmt.setInt(3, articuloID);
             psmt.setInt(4, 1);
             psmt.executeUpdate();
 
@@ -70,6 +70,34 @@ public class PrestamoDaoImpl implements PrestamoDao {
             String sql = "select * from prestamos where usuario = ? and estado = ?";
             PreparedStatement psmt = connection.prepareStatement(sql);
             psmt.setInt(1, userID);
+            psmt.setInt(2, 1);
+            ResultSet resultSet = psmt.executeQuery();
+            List<Prestamo> prestamos = new ArrayList<>();
+            while(resultSet.next()){
+                int id = resultSet.getInt("prestamo_id");
+                int usuario = resultSet.getInt("usuario");
+                int articulo = resultSet.getInt("articulo");
+                Prestamo prestamo = new Prestamo();
+                prestamo.setPrestamoID(id);
+                prestamo.setUsuario(usuario);
+                prestamo.setArticulo(articulo);
+                prestamos.add(prestamo);
+            }
+            return prestamos;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<Prestamo> getLoansByItemId(int articuloID) {
+        try{
+            String sql = "select * from prestamos where articulo = ? and estado = ?";
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setInt(1, articuloID);
             psmt.setInt(2, 1);
             ResultSet resultSet = psmt.executeQuery();
             List<Prestamo> prestamos = new ArrayList<>();

@@ -27,4 +27,9 @@ public class PrestamoServiceImpl implements PrestamoService {
     public List<Prestamo> getLoansByUserId(int userID) {
         return prestamoDao.getLoansByUserId(userID);
     }
+
+    @Override
+    public List<Prestamo> getLoansByItemId(int articuloID) {
+        return prestamoDao.getLoansByItemId(articuloID);
+    }
 }

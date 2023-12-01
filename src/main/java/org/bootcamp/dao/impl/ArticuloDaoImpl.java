@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ArticuloDaoImpl implements ArticuloDao {
     private Connection connection;  //conexion bd
@@ -96,7 +97,23 @@ public class ArticuloDaoImpl implements ArticuloDao {
 
     @Override
     public void deleteArticulo(int id) {
+        System.out.println("Esta seguro de eliminar este articulo? (1: Si, 2: No)");
+        Scanner sc = new Scanner(System.in);
+        int option = sc.nextInt();
 
+        if(option != 1) return;
+        try{
+            String sql2 = "update articulos set estado = ? where articulo_id = ?";
+            PreparedStatement psmt2 = connection.prepareStatement(sql2);
+            psmt2.setInt(1, 0);
+            psmt2.setInt(2, id);
+            psmt2.executeUpdate();
+
+            System.out.println("Articulo eliminado exitosamente");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

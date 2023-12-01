@@ -30,7 +30,7 @@ public class ArticuloServiceImpl implements ArticuloService {
 
     @Override
     public void deleteArticulo(int id) {
-
+        articuloDao.deleteArticulo(id);
     }
 
     @Override

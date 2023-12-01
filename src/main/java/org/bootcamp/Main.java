@@ -4,6 +4,7 @@ import org.bootcamp.dao.impl.ArticuloDaoImpl;
 import org.bootcamp.dao.impl.PrestamoDaoImpl;
 import org.bootcamp.dao.impl.UserDaoImpl;
 import org.bootcamp.model.Articulo;
+import org.bootcamp.model.Prestamo;
 import org.bootcamp.model.User;
 import org.bootcamp.service.ArticuloService;
 import org.bootcamp.service.PrestamoService;
@@ -43,6 +44,7 @@ public class Main {
             System.out.println("Ingrese 8 para devolver un articulo");
             System.out.println("Ingrese 9 para modificar un articulo");
             System.out.println("Ingrese 10 para modificar un usuario");
+            System.out.println("Ingrese 11 para eliminar un articulo");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -223,6 +225,21 @@ public class Main {
                     userEdit.setEmail(newEmail);
 
                     userService.editUser(userEdit);
+                    break;
+                case 11:
+                    System.out.println("Ingrese el id del articulo");
+                    idArticulo = sc.nextInt();
+                    Articulo articuloDelete = articuloService.returnArtById(idArticulo);
+                    if (articuloDelete.getArticuloID() == 0){
+                        System.out.println("Ingrese un articulo valido");
+                        return;
+                    }
+                    List<Prestamo> prestamoRevision = prestamoService.getLoansByItemId(articuloDelete.getArticuloID());
+                    if (!prestamoRevision.isEmpty()){
+                        System.out.println("El articulo esta prestado, primero efectue la devolucion por favor");
+                        return;
+                    }
+                    articuloService.deleteArticulo(articuloDelete.getArticuloID());
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");
