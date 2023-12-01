@@ -104,10 +104,10 @@ public class ArticuloDaoImpl implements ArticuloDao {
         if(option != 1) return;
         try{
             String sql2 = "update articulos set estado = ? where articulo_id = ?";
-            PreparedStatement psmt2 = connection.prepareStatement(sql2);
-            psmt2.setInt(1, 0);
-            psmt2.setInt(2, id);
-            psmt2.executeUpdate();
+            PreparedStatement psmt = connection.prepareStatement(sql2);
+            psmt.setInt(1, 0);
+            psmt.setInt(2, id);
+            psmt.executeUpdate();
 
             System.out.println("Articulo eliminado exitosamente");
         }
