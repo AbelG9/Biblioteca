@@ -42,6 +42,7 @@ public class Main {
             System.out.println("Ingrese 7 para prestar un articulo");
             System.out.println("Ingrese 8 para devolver un articulo");
             System.out.println("Ingrese 9 para modificar un articulo");
+            System.out.println("Ingrese 10 para modificar un usuario");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -196,6 +197,32 @@ public class Main {
                     articuloEdit.setLoaned(false);
 
                     articuloService.updateArticulo(articuloEdit);
+                    break;
+                case 10:
+                    System.out.println("Ingrese el id del usuario");
+                    idUsuario = sc.nextInt();
+
+                    User userEdit = userService.findUserById(idUsuario);
+                    if (userEdit.getUserID() == 0){
+                        System.out.println("Ingrese un usuario valido");
+                        return;
+                    }
+                    userEdit.showUserDetails();
+                    System.out.println("--------------------------------------------");
+                    System.out.println("Ingrese los nuevos datos del usuario");
+                    System.out.println("--------------------------------------------");
+                    System.out.println("Ingrese el nombre del usuario");
+                    String newUserNombre = sc.next();
+                    System.out.println("Ingrese los apellidos del usuario");
+                    String newApellidos = sc.next();
+                    System.out.println("Ingrese el email del usuario");
+                    String newEmail = sc.next();
+
+                    userEdit.setNombre(newUserNombre);
+                    userEdit.setApellido(newApellidos);
+                    userEdit.setEmail(newEmail);
+
+                    userService.editUser(userEdit);
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");
