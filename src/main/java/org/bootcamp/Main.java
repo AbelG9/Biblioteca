@@ -41,6 +41,7 @@ public class Main {
             System.out.println("Ingrese 6 para agregar un nuevo usuario");
             System.out.println("Ingrese 7 para prestar un articulo");
             System.out.println("Ingrese 8 para devolver un articulo");
+            System.out.println("Ingrese 9 para modificar un articulo");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -165,6 +166,36 @@ public class Main {
                         return;
                     }
                     prestamoService.returnItem(idArticulo, idUsuario);
+                    break;
+                case 9:
+                    System.out.println("Ingrese el id del articulo");
+                    idArticulo = sc.nextInt();
+
+                    Articulo articuloEdit = articuloService.returnArtById(idArticulo);
+                    if (articuloEdit.getArticuloID() == 0){
+                        System.out.println("Ingrese un articulo valido");
+                        return;
+                    }
+                    articuloEdit.showDetails();
+                    System.out.println("--------------------------------------------");
+                    System.out.println("Ingrese los nuevos datos del articulo");
+                    System.out.println("--------------------------------------------");
+                    System.out.println("Ingrese el nombre del articulo");
+                    String newNombre = sc.next();
+                    System.out.println("Ingrese el nombre del autor");
+                    String newAutor = sc.next();
+                    System.out.println("Ingrese la editorial");
+                    String newEditorial = sc.next();
+                    System.out.println("Ingrese el isbn del articulo");
+                    String newIsbn = sc.next();
+
+                    articuloEdit.setNombreArticulo(newNombre);
+                    articuloEdit.setAutor(newAutor);
+                    articuloEdit.setEditorial(newEditorial);
+                    articuloEdit.setIsbn(newIsbn);
+                    articuloEdit.setLoaned(false);
+
+                    articuloService.updateArticulo(articuloEdit);
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");

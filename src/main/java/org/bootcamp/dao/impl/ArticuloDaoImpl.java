@@ -77,7 +77,21 @@ public class ArticuloDaoImpl implements ArticuloDao {
 
     @Override
     public void updateArticulo(Articulo articulo) {
+        try{
+            String sql2 = "update articulos set nombreArticulo = ?, autor = ?, editorial = ?, isbn = ? where articulo_id = ?";
+            PreparedStatement psmt2 = connection.prepareStatement(sql2);
+            psmt2.setString(1,articulo.getNombreArticulo());
+            psmt2.setString(2,articulo.getAutor());
+            psmt2.setString(3,articulo.getEditorial());
+            psmt2.setString(4,articulo.getIsbn());
+            psmt2.setInt(5, articulo.getArticuloID());
+            psmt2.executeUpdate();
 
+            System.out.println("Articulo editado exitosamente");
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
