@@ -5,8 +5,10 @@ import org.bootcamp.model.Articulo;
 import org.bootcamp.model.Prestamo;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +22,12 @@ public class PrestamoDaoImpl implements PrestamoDao {
     @Override
     public void loanItem(int articuloID, int userID) {
         try{
-            String sql = "insert into prestamos (usuario, articulo, estado) values (?,?,?)";
+            String sql = "insert into prestamos (usuario, articulo, fecha_prestamo, estado) values (?,?,?,?)";
             PreparedStatement psmt = connection.prepareStatement(sql);
             psmt.setInt(1, userID);
             psmt.setInt(2, articuloID);
-            psmt.setInt(3, 1);
+            psmt.setDate(3, Date.valueOf(LocalDate.now()));
+            psmt.setInt(4, 1);
             psmt.executeUpdate();
 
             String sql2 = "update articulos set isLoaned = ? where articulo_id = ?";
@@ -43,12 +46,13 @@ public class PrestamoDaoImpl implements PrestamoDao {
     @Override
     public void returnItem(int articuloID, int userID) {
         try{
-            String sql = "update prestamos set estado = ? where usuario = ? and articulo = ? and estado = ?";
+            String sql = "update prestamos set estado = ?, fecha_devolucion = ? where usuario = ? and articulo = ? and estado = ?";
             PreparedStatement psmt = connection.prepareStatement(sql);
             psmt.setInt(1, 0);
-            psmt.setInt(2, userID);
-            psmt.setInt(3, articuloID);
-            psmt.setInt(4, 1);
+            psmt.setDate(2, Date.valueOf(LocalDate.now()));
+            psmt.setInt(3, userID);
+            psmt.setInt(4, articuloID);
+            psmt.setInt(5, 1);
             psmt.executeUpdate();
 
             String sql2 = "update articulos set isLoaned = ? where articulo_id = ?";
@@ -77,10 +81,14 @@ public class PrestamoDaoImpl implements PrestamoDao {
                 int id = resultSet.getInt("prestamo_id");
                 int usuario = resultSet.getInt("usuario");
                 int articulo = resultSet.getInt("articulo");
+                Date fechaPrestamo = resultSet.getDate("fecha_prestamo");
+                Date fechaDevolucion = resultSet.getDate("fecha_devolucion");
                 Prestamo prestamo = new Prestamo();
                 prestamo.setPrestamoID(id);
                 prestamo.setUsuario(usuario);
                 prestamo.setArticulo(articulo);
+                prestamo.setFecha_prestamo(fechaPrestamo);
+                prestamo.setFecha_devolucion(fechaDevolucion);
                 prestamos.add(prestamo);
             }
             return prestamos;
@@ -105,10 +113,14 @@ public class PrestamoDaoImpl implements PrestamoDao {
                 int id = resultSet.getInt("prestamo_id");
                 int usuario = resultSet.getInt("usuario");
                 int articulo = resultSet.getInt("articulo");
+                Date fechaPrestamo = resultSet.getDate("fecha_prestamo");
+                Date fechaDevolucion = resultSet.getDate("fecha_devolucion");
                 Prestamo prestamo = new Prestamo();
                 prestamo.setPrestamoID(id);
                 prestamo.setUsuario(usuario);
                 prestamo.setArticulo(articulo);
+                prestamo.setFecha_prestamo(fechaPrestamo);
+                prestamo.setFecha_devolucion(fechaDevolucion);
                 prestamos.add(prestamo);
             }
             return prestamos;
@@ -132,11 +144,15 @@ public class PrestamoDaoImpl implements PrestamoDao {
                 int id = resultSet.getInt("prestamo_id");
                 int usuario = resultSet.getInt("usuario");
                 int articulo = resultSet.getInt("articulo");
+                Date fechaPrestamo = resultSet.getDate("fecha_prestamo");
+                Date fechaDevolucion = resultSet.getDate("fecha_devolucion");
                 int estado = resultSet.getInt("estado");
                 Prestamo prestamo = new Prestamo();
                 prestamo.setPrestamoID(id);
                 prestamo.setUsuario(usuario);
                 prestamo.setArticulo(articulo);
+                prestamo.setFecha_prestamo(fechaPrestamo);
+                prestamo.setFecha_devolucion(fechaDevolucion);
                 prestamo.setEstado(estado);
                 prestamos.add(prestamo);
             }
