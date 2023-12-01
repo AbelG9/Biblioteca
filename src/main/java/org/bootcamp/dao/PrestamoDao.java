@@ -9,4 +9,5 @@ public interface PrestamoDao {
     public void returnItem(int articuloID, int userID);
     public List<Prestamo> getLoansByUserId(int userID);
     public List<Prestamo> getLoansByItemId(int articuloID);
+    public List<Prestamo> getAllLoansByUserId(int userID);
 }

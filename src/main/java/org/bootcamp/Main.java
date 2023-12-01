@@ -46,6 +46,7 @@ public class Main {
             System.out.println("Ingrese 10 para modificar un usuario");
             System.out.println("Ingrese 11 para eliminar un articulo");
             System.out.println("Ingrese 12 para eliminar un usuario");
+            System.out.println("Ingrese 13 para ver el historial de prestamos por usuario");
             System.out.println("--------------------------------------------");
 
             int option = sc.nextInt();
@@ -257,6 +258,20 @@ public class Main {
                         break;
                     }
                     userService.deleteUser(userDelete.getUserID());
+                    break;
+                case 13:
+                    System.out.println("Ingrese el id del usuario");
+                    idUsuario = sc.nextInt();
+
+                    User userHistory = userService.findUserById(idUsuario);
+                    if (userHistory.getUserID() == 0){
+                        System.out.println("Ingrese un usuario valido");
+                        break;
+                    }
+                    List<Prestamo> allPrestamos = prestamoService.getAllLoansByUserId(idUsuario);
+                    for (Prestamo prestamo : allPrestamos) {
+                        prestamo.showPrestamoDetails();
+                    }
                     break;
                 default:
                     System.out.println("Ingrese una opcion correcta");

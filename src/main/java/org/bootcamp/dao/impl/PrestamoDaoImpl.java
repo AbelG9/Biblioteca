@@ -119,4 +119,33 @@ public class PrestamoDaoImpl implements PrestamoDao {
         }
         return null;
     }
+
+    @Override
+    public List<Prestamo> getAllLoansByUserId(int userID) {
+        try{
+            String sql = "select * from prestamos where usuario = ?";
+            PreparedStatement psmt = connection.prepareStatement(sql);
+            psmt.setInt(1, userID);
+            ResultSet resultSet = psmt.executeQuery();
+            List<Prestamo> prestamos = new ArrayList<>();
+            while(resultSet.next()){
+                int id = resultSet.getInt("prestamo_id");
+                int usuario = resultSet.getInt("usuario");
+                int articulo = resultSet.getInt("articulo");
+                int estado = resultSet.getInt("estado");
+                Prestamo prestamo = new Prestamo();
+                prestamo.setPrestamoID(id);
+                prestamo.setUsuario(usuario);
+                prestamo.setArticulo(articulo);
+                prestamo.setEstado(estado);
+                prestamos.add(prestamo);
+            }
+            return prestamos;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
