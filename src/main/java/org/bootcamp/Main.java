@@ -28,9 +28,9 @@ public class Main {
         PrestamoService prestamoService = new PrestamoServiceImpl(new PrestamoDaoImpl(connection));
 
         Scanner sc = new Scanner(System.in);
-
+        int optionSystem = 0;
         //mostrando opciones del menu
-        while (true) {
+        do {
             System.out.println("--------------------------------------------");
             System.out.println("Bienvenido al Sistema de Biblioteca ");
             System.out.println("--------------------------------------------");
@@ -125,7 +125,7 @@ public class Main {
                     User userFind = userService.findUserById(idUsuario);
                     if (userFind.getUserID() == 0){
                         System.out.println("Ingrese un usuario valido");
-                        return;
+                        break;
                     }
 
                     System.out.println("Ingrese el id del articulo");
@@ -134,11 +134,11 @@ public class Main {
                     Articulo articuloFind = articuloService.returnArtById(idArticulo);
                     if (articuloFind.getArticuloID() == 0){
                         System.out.println("Ingrese un articulo valido");
-                        return;
+                        break;
                     }
                     if (articuloFind.isLoaned()){
                         System.out.println("El articulo ya esta prestado a otro usuario");
-                        return;
+                        break;
                     }
                     prestamoService.loanItem(idArticulo, idUsuario);
                     break;
@@ -149,11 +149,11 @@ public class Main {
                     User userFound = userService.findUserById(idUsuario);
                     if (userFound.getUserID() == 0){
                         System.out.println("Ingrese un usuario valido");
-                        return;
+                        break;
                     }
                     if(userFound.getArticuloList().isEmpty()){
                         System.out.println("El usuario no tiene articulos prestados");
-                        return;
+                        break;
                     }
 
                     System.out.println("Ingrese el id del articulo");
@@ -162,12 +162,12 @@ public class Main {
                     Articulo articuloFound = articuloService.returnArtById(idArticulo);
                     if (articuloFound.getArticuloID() == 0){
                         System.out.println("Ingrese un articulo valido");
-                        return;
+                        break;
                     }
                     boolean loaned = articuloFound.isLoaned();
                     if (!loaned){
                         System.out.println("El articulo no esta prestado");
-                        return;
+                        break;
                     }
                     prestamoService.returnItem(idArticulo, idUsuario);
                     break;
@@ -178,7 +178,7 @@ public class Main {
                     Articulo articuloEdit = articuloService.returnArtById(idArticulo);
                     if (articuloEdit.getArticuloID() == 0){
                         System.out.println("Ingrese un articulo valido");
-                        return;
+                        break;
                     }
                     articuloEdit.showDetails();
                     System.out.println("--------------------------------------------");
@@ -208,7 +208,7 @@ public class Main {
                     User userEdit = userService.findUserById(idUsuario);
                     if (userEdit.getUserID() == 0){
                         System.out.println("Ingrese un usuario valido");
-                        return;
+                        break;
                     }
                     userEdit.showUserDetails();
                     System.out.println("--------------------------------------------");
@@ -233,12 +233,12 @@ public class Main {
                     Articulo articuloDelete = articuloService.returnArtById(idArticulo);
                     if (articuloDelete.getArticuloID() == 0){
                         System.out.println("Ingrese un articulo valido");
-                        return;
+                        break;
                     }
                     List<Prestamo> prestamoRevision = prestamoService.getLoansByItemId(articuloDelete.getArticuloID());
                     if (!prestamoRevision.isEmpty()){
                         System.out.println("El articulo esta prestado, primero efectue la devolucion por favor");
-                        return;
+                        break;
                     }
                     articuloService.deleteArticulo(articuloDelete.getArticuloID());
                     break;
@@ -249,12 +249,12 @@ public class Main {
                     User userDelete = userService.findUserById(idUsuario);
                     if (userDelete.getUserID() == 0){
                         System.out.println("Ingrese un usuario valido");
-                        return;
+                        break;
                     }
                     List<Prestamo> prestamoRevisionUser = prestamoService.getLoansByUserId(userDelete.getUserID());
                     if (!prestamoRevisionUser.isEmpty()){
                         System.out.println("El usuario tiene articulos prestados, primero debe efectuar la devolucion");
-                        return;
+                        break;
                     }
                     userService.deleteUser(userDelete.getUserID());
                     break;
@@ -262,6 +262,10 @@ public class Main {
                     System.out.println("Ingrese una opcion correcta");
                     break;
             }
-        }
+            System.out.println("--------------------------------------------");
+            System.out.println("Desea realizar otra operacion? 1: Si, 0: No");
+            optionSystem = sc.nextInt();
+        } while (optionSystem == 1);
+        System.out.println("Gracias por utilizar este sistema, vuelva pronto!");
     }
 }
